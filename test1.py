@@ -7,7 +7,7 @@ from auto_start_part import receive_home, sham_battle, store, result_part, NIKKE
 
 
 def test():
-    # 这里可能要弄一个任务栏中转
+    # 这里可能要弄一个任务栏中转，version
 
     sleep(1)
     while not share.stop_event.is_set():
