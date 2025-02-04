@@ -92,8 +92,9 @@ def receive_box():
                 try:
                     # 珠宝也不是关键图像，先堵住这条路，后面再优化，还有当指挥官升级到整数倍的时候，会弹出露比，购买礼包，关键图像是58
                     print("正在检测是否有指挥官升级关键图像")
-                    locateOnScreen("images/3.png", confidence=0.8)
+                    locateOnScreen("images/4.png", confidence=0.8)
                     print("指挥官升级找到了")
+                    sleep(0.5)
                     moveTo(888, 888, duration=0.2)
                     moveRel(num, num, duration=num_f)
                     click()
