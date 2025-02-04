@@ -12,16 +12,12 @@ def test():
 
     sleep(1)  # 让当前线程暂停1秒钟
     # 等待1秒后开始执行主循环
-
-    while not share.stop_event.is_set():
-        # 检查共享资源中的停止事件是否已设置
-        # 如果停止事件未设置，则继续循环
-
-        if paid_store():
-            # 调用paid_store函数，检查某个条件（具体条件需根据paid_store函数实现确定）
-            # 如果paid_store函数返回True，表示某个条件满足，退出循环
-
-            break  # 退出当前循环
+    try:
+        locateOnScreen("images/4.png", confidence=0.8)
+        print("找到了4")
+    except ImageNotFoundException:
+        print("继续找")
+        sleep(1)
 
 
 
