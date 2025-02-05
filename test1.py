@@ -13,8 +13,8 @@ def test():
     sleep(1)  # 让当前线程暂停1秒钟
     # 等待1秒后开始执行主循环
     try:
-        locateOnScreen("images/4.png", confidence=0.8)
-        print("找到了4")
+        locateOnScreen("images/5.png", confidence=0.8)
+        print("找到了5")
     except ImageNotFoundException:
         print("继续找")
         sleep(1)

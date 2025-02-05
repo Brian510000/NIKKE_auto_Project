@@ -4,7 +4,7 @@ from win32con import HWND_TOPMOST, SWP_SHOWWINDOW
 # from pyautogui import locateOnScreen, ImageNotFoundException, moveTo, click
 # from win32process import GetWindowThreadProcessId
 # from psutil import Process
-from runningpart import find_x, find_serve, find_sys_error, enter_game
+from runningpart import find_x, find_serve, find_sys_error, enter_game, find_downlord
 from threading import Thread, Event
 import share
 
@@ -15,6 +15,7 @@ def running():
         share.hwnd_game = FindWindow("UnityWndClass", "NIKKE")
         if share.hwnd_game:
             print("找到游戏主体句柄了")
+            sleep(2)
             SetWindowPos(share.hwnd_game, HWND_TOPMOST, 0, 0, 1920, 1080, SWP_SHOWWINDOW)
             print("置顶了")
             sleep(5)
@@ -27,6 +28,8 @@ def running():
                     while not share.stop_event.is_set():
                         if enter_game():
                             break
+                        elif find_downlord():
+                            continue
                     break  # 退出外层循环，避免重复检查
                 elif enter_game():
                     break  # 直接退出外层循环

@@ -75,3 +75,14 @@ def enter_game():
     except ImageNotFoundException:
         print("Error: 点击任意键进入游戏 not found.")  # 如果抛出异常，处理并继续
         sleep(1)
+
+def find_downlord():
+    try:
+        locateOnScreen("images/5.png", confidence=0.8)
+        moveTo(1048, 697, duration=0.2)
+        click()
+        print("找到下载按钮了")
+        return 1
+    except ImageNotFoundException:
+        print("Error: 下载按钮 not found.")  # 如果抛出异常，处理并继续
+        sleep(1)
