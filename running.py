@@ -17,9 +17,9 @@ def running():
             print("找到游戏主体句柄了")
             sleep(2)
             SetWindowPos(share.hwnd_game, HWND_TOPMOST, 0, 0, 1920, 1080, SWP_SHOWWINDOW)
-            print("置顶了")
-            sleep(5)
-
+            print("准备置顶了")
+            sleep(8)
+            SetWindowPos(share.hwnd_game, HWND_TOPMOST, 0, 0, 1920, 1080, SWP_SHOWWINDOW)
             while not share.stop_event.is_set():
                 if find_x():
                     break

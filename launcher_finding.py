@@ -1,6 +1,6 @@
-from pyautogui import locateOnScreen, ImageNotFoundException, moveTo, write, center, click
+from pyautogui import locateOnScreen, ImageNotFoundException, moveTo, write, center, click, moveRel
 from time import sleep
-
+from random import randint, uniform
 
 # 查找屏幕上是否存在指定图片
 
@@ -17,12 +17,15 @@ def internet_error():
 
 
 def need_login():
+    num = randint(1, 8)  # 生成 1 到 8 之间的随机整数（包括 1 和 8）
+    num_f = uniform(0.1, 0.3)
     try:
         button_location = locateOnScreen('images/2.png', confidence=0.8)
+        sleep(0.5)
         if button_location:
             print(f"Button found at: {button_location}")
-
             moveTo(108, 519, duration=0.5)
+            moveRel(num, num, duration=num_f)
             click()
             sleep(1)
             write('Brianlm521', interval=0.1)
@@ -50,8 +53,8 @@ def start_game():
         button_location = locateOnScreen('images/3.png', confidence=0.7)
         if button_location:
             print(f"Button found at: {button_location}")
+            moveTo(274, 928, duration=0.2)
 
-            moveTo(274, 928, duration=0.5)
             click()
 
             return 1
@@ -60,7 +63,7 @@ def start_game():
             sleep(0.5)  # 延时0.5秒，避免频繁查找导致资源占用过高
 
     except ImageNotFoundException:
-        print("Error: Image not found.图片3没有找到")
+        print("Error: Image not found.图片3新闻关键图像没有找到")
         sleep(0.5)
         return 0
     # 如果图找到了，进行一系列操作然后返回1

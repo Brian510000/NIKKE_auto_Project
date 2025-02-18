@@ -88,7 +88,7 @@ def receive_box():
             # 网络波动等待
             sleep(1)
             while not share.stop_event.is_set():
-                # 要写if检测，因为可能要指挥官升级
+                # 可能要指挥官升级
                 try:
                     # 珠宝也不是关键图像，先堵住这条路，后面再优化，还有当指挥官升级到整数倍的时候，会弹出露比，购买礼包，关键图像是58
                     print("正在检测是否有指挥官升级关键图像")
@@ -103,19 +103,26 @@ def receive_box():
                     moveRel(num, num, duration=num_f)
                     click()
                     break
-
                 except ImageNotFoundException:
                     print("指挥官升级未找到")
-                    try:
-                        locateOnScreen("images/img_54.png", confidence=0.8)
-                        # 这里不能找U盘，因为他不是关键图像，还是直接找reward吧
-                        moveTo(888, 888, duration=0.2)
-                        moveRel(num, num, duration=num_f)
-                        click()
-                        break
-                    except ImageNotFoundException:
-                        print("Error: 获得奖励的REWARD not found.")  # 如果抛出异常，处理并继续
-                        sleep(1)
+                    sleep(1)
+                try:
+                    locateOnScreen("images/img_54.png", confidence=0.95)
+                    # 这里不能找U盘，因为他不是关键图像，还是直接找reward吧
+                    moveTo(888, 888, duration=0.2)
+                    moveRel(num, num, duration=num_f)
+                    click()
+                    # 这里不用break了，把break放在下一个try检测图像
+                except ImageNotFoundException:
+                    print("Error: 获得奖励的REWARD not found.")  # 如果抛出异常，处理并继续
+                    sleep(1)
+                sleep(1)
+                try:
+                    locateOnScreen("images/img_23.png", confidence=0.95)
+                    break
+                except ImageNotFoundException:
+                    print("没有回到主页面，继续这个循环")
+                    sleep(0.5)
             break
         except ImageNotFoundException:
             print("Error: 一键歼灭 not found.")  # 如果抛出异常，处理并继续
@@ -307,9 +314,17 @@ def store():
         moveRel(num, num, duration=num_f)
         click()
         sleep(1)
-        moveTo(888, 888, duration=0.2)
-        moveRel(num, num, duration=num_f)
-        click()
+        # 这里有网络波动等待
+        while not share.stop_event.is_set():
+            try:
+                locateOnScreen("images/img_61.png", confidence=0.8)
+                moveTo(888, 888, duration=0.2)
+                moveRel(num, num, duration=num_f)
+                click()
+                break
+            except ImageNotFoundException:
+                print("没有找到买完之后的reward关键图像")
+                sleep(1)
         print("点击任意键完毕了")
         sleep(1)
         moveTo(327, 511, duration=0.2)
@@ -413,72 +428,132 @@ def result_part():
                     click()
                     sleep(4)
                     while not share.stop_event.is_set():
+                        # try:
+                        #     print("找2键")
+                        #     locateOnScreen("images/img_38.png", confidence=0.8)
+                        #     sleep(0.2)
+                        #     press('1')
+                        #     sleep(1)
+                        #     press(']')
+                        #     sleep(1)
+                        #     i += 1
+                        #     share.i = i
+                        #     print(f"目前执行了{share.i}次")
+                        #     while not share.stop_event.is_set():
+                        #         try:
+                        #             print("找追加能力值，就是咨询完升级的页面")
+                        #             locateOnScreen("images/img_36.png", confidence=0.8)
+                        #             print("妮姬好感升级了")
+                        #             sleep(1)
+                        #             moveTo(888, 888, duration=0.2)
+                        #             moveRel(num, num, duration=num_f)
+                        #             click()
+                        #             sleep(0.5)
+                        #         except ImageNotFoundException:
+                        #             print("这次没有找到，接下来找右划键")
+                        #         try:
+                        #             print("找右划键")
+                        #             auto_10 = locateOnScreen("images/img_40.png", confidence=0.8)
+                        #             sleep(0.5)
+                        #             moveTo(auto_10, duration=0.2)
+                        #             moveRel(num, num, duration=num_f)
+                        #             click()
+                        #             sleep(1)
+                        #         except ImageNotFoundException:
+                        #             print("没有找到右划键")
+                        #             sleep(1)
+                        #         # 咨询键盘重新变蓝色我再break
+                        #         try:
+                        #             sleep(1)
+                        #             locateOnScreen("images/img_48.png", confidence=0.95)
+                        #             # 测试
+                        #             print("咨询键变亮了，已经到达下一位角色")
+                        #             break
+                        #         except ImageNotFoundException:
+                        #             print("咨询键未变亮，继续循环找")
+                        #             sleep(1)
+                        #         if share.i == 9:
+                        #             print("最后一次了，等待四秒")
+                        #             sleep(4)
+                        #             moveTo(600, 300, duration=0.2)
+                        #             moveRel(num, num, duration=num_f)
+                        #             click()
+                        #             moveTo(600, 300, duration=0.2)
+                        #             moveRel(num, num, duration=num_f)
+                        #             click()
+                        #             moveTo(600, 300, duration=0.2)
+                        #             moveRel(num, num, duration=num_f)
+                        #             click()
+                        #             break
+                        #     break
+                        # except ImageNotFoundException:
+                        #     print("没有找到选项2，等待中")
+                        #     sleep(1)
+                        print("循环按1")
+                        sleep(0.2)
+                        press('1')
+                        sleep(1)
+                        press(']')
+                        sleep(0.5)
+                        i += 1
+                        share.i = i
+                        print(f"目前执行了{share.i}次")
                         try:
-                            print("找2键")
-                            locateOnScreen("images/img_38.png", confidence=0.8)
-                            sleep(0.2)
-                            press('1')
+                            print("找追加能力值，就是咨询完升级的页面")
+                            locateOnScreen("images/img_36.png", confidence=0.8)
+                            print("妮姬好感升级了")
                             sleep(1)
-                            press(']')
+                            moveTo(888, 888, duration=0.2)
+                            moveRel(num, num, duration=num_f)
+                            click()
+                            sleep(0.5)
+                        except ImageNotFoundException:
+                            print("这次没有找到，接下来找右划键")
+                            sleep(0.5)
+                        try:
+                            print("找右划键")
+                            auto_10 = locateOnScreen("images/img_40.png", confidence=0.8)
+                            sleep(0.5)
+                            moveTo(auto_10, duration=0.2)
+                            moveRel(num, num, duration=num_f)
+                            click()
                             sleep(1)
-                            i += 1
-                            share.i = i
-                            print(f"目前执行了{share.i}次")
-                            while not share.stop_event.is_set():
-                                try:
-                                    print("找追加能力值，就是咨询完升级的页面")
-                                    locateOnScreen("images/img_36.png", confidence=0.8)
-                                    print("妮姬好感升级了")
-                                    sleep(1)
-                                    moveTo(888, 888, duration=0.2)
-                                    moveRel(num, num, duration=num_f)
-                                    click()
-                                    sleep(0.5)
-                                except ImageNotFoundException:
-                                    print("这次没有找到，接下来找右划键")
-                                try:
-                                    print("找右划键")
-                                    auto_10 = locateOnScreen("images/img_40.png", confidence=0.8)
-                                    sleep(0.5)
-                                    moveTo(auto_10, duration=0.2)
-                                    moveRel(num, num, duration=num_f)
-                                    click()
-                                    sleep(1)
-                                except ImageNotFoundException:
-                                    print("没有找到右划键")
-                                    sleep(1)
-                                # 咨询键盘重新变蓝色我再break
-                                try:
-                                    sleep(1)
-                                    locateOnScreen("images/img_48.png", confidence=0.95)
-                                    # 测试
-                                    print("咨询键变亮了，已经到达下一位角色")
-                                    break
-                                except ImageNotFoundException:
-                                    print("咨询键未变亮，继续循环找")
-                                    sleep(1)
-                                if share.i == 9:
-                                    print("最后一次了，等待四秒")
-                                    sleep(4)
-                                    moveTo(600, 300, duration=0.2)
-                                    moveRel(num, num, duration=num_f)
-                                    click()
-                                    moveTo(600, 300, duration=0.2)
-                                    moveRel(num, num, duration=num_f)
-                                    click()
-                                    moveTo(600, 300, duration=0.2)
-                                    moveRel(num, num, duration=num_f)
-                                    click()
-                                    break
+                        except ImageNotFoundException:
+                            print("没有找到右划键")
+                            sleep(0.5)
+                        # 咨询键盘重新变蓝色我再break
+                        try:
+                            sleep(1)
+                            locateOnScreen("images/img_48.png", confidence=0.95)
+                            # 测试
+                            print("咨询键变亮了，已经到达下一位角色")
                             break
                         except ImageNotFoundException:
-                            print("没有找到选项2，等待中")
-                            sleep(1)
+                            print("咨询键未变亮，继续循环找")
+                            sleep(0.5)
+                        try:
+                            locateOnScreen("images/img_62.png", confidence=0.99)
+                            print("已完成全部咨询")
+                            sleep(4)
+                            moveTo(600, 300, duration=0.2)
+                            moveRel(num, num, duration=num_f)
+                            click()
+                            moveTo(600, 300, duration=0.2)
+                            moveRel(num, num, duration=num_f)
+                            click()
+                            moveTo(600, 300, duration=0.2)
+                            moveRel(num, num, duration=num_f)
+                            click()
+                            share.i = 999                                   
+                            break
+                        except ImageNotFoundException:
+                            print("未咨询完全部角色，继续循环")
+                            sleep(0.5)
                     break
                 except ImageNotFoundException:
                     print("没有检测到Lshift按钮，可能没进入聊天页面")
                     sleep(1)
-            if share.i == 9:
+            if share.i == 999:
                 break
         except ImageNotFoundException:
             print("没有找到咨询按钮")

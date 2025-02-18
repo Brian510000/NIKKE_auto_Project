@@ -24,7 +24,7 @@ def composite():
     run_launcher()
     sleep(1)
     running()
-
+ 
 
 # 初始化主窗口
 root = Tk()
