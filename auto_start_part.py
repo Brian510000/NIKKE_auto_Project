@@ -304,8 +304,15 @@ def store():
         moveTo(586, 747, duration=0.2)
         moveRel(num, num, duration=num_f)
         click()
-        # 好像 无 网络波动等待
-        sleep(3)
+        # 有 网络波动等待
+        while not share.stop_event.is_set():
+            try:
+                locateOnScreen("images/img_63.png", confidence=0.8)
+                print("找到商店的关键图像")
+                break
+            except ImageNotFoundException:
+                print("没有找到商店的关键图像")
+                sleep(1)
         moveTo(238, 751, duration=0.2)
         moveRel(num, num, duration=num_f)
         click()
